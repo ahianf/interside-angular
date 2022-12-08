@@ -1,0 +1,87 @@
+<div>
+    <h1>Prueba interside</h1>
+    <h2>Agregar saldos si cliente está activo</h2>
+    <form [formGroup]="recargaForm" (ngSubmit)="enviarRecarga()">
+        <div>
+            <label for="cliente1">
+                Cliente:
+            </label>
+            <select id="cliente1" formControlName="id">
+                <option disabled>Selecciona cliente</option>
+                <option *ngFor="let cliente of clientes | async" [disabled]="!cliente.estado"
+                        [ngValue]="cliente.id">{{cliente.nombre}} </option>
+            </select>
+        </div>
+        <div>
+            <label for="saldo">
+                Saldo a agregar
+            </label>
+            <input id="saldo" type="number" formControlName="monto">
+        </div>
+        <button type="submit">Recargar</button>
+    </form>
+
+    <h2>Comprar producto si se encuentra con saldo</h2>
+    <form [formGroup]="comprarForm" (ngSubmit)="enviarCompra()">
+        <div>
+            <label for="cliente2">
+                Cliente:
+            </label>
+            <select id="cliente2" formControlName="idCliente">
+                <option disabled>Selecciona cliente</option>
+                <option *ngFor="let cliente of clientes | async" [disabled]="!cliente.estado"
+                        [ngValue]="cliente.id">{{cliente.nombre}} </option>
+            </select>
+        </div>
+
+        <label for="producto1">
+            Producto:
+        </label>
+        <select id="producto1" formControlName="idProducto">
+            <option disabled>Selecciona cliente</option>
+            <option *ngFor="let producto of productos"
+                    [ngValue]="producto.id">{{producto.nombre}} </option>
+        </select>
+        <button type="submit">Comprar</button>
+    </form>
+
+    <h2>Permitir y consultar el histórico de compras y recargas</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Descripción</th>
+            <th>Movimiento</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let transaccion of transacciones | async">
+            <td>{{ transaccion.idProducto.nombre }}</td>
+            <td>{{ transaccion.movimiento }}</td>
+            <td>{{ transaccion.fecha }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Permitir la edición del nombre del cliente.</h2>
+
+    <form [formGroup]="nombreForm" (ngSubmit)="enviarNombre()">
+        <div>
+            <label for="cliente1">
+                Cliente:
+            </label>
+            <select id="nombrecliente" formControlName="cliente">
+                <option disabled>Selecciona cliente</option>
+                <option *ngFor="let cliente of clientes | async" [disabled]="!cliente.estado"
+                        [ngValue]="cliente.id">{{cliente.nombre}} </option>
+            </select>
+            <div>
+                <label for="nombre">
+                    Nuevo nombre
+                </label>
+                <input type="text" id="nombre" name="lname" formControlName="nombre">
+            </div>
+        </div>
+        <button type="submit">Renombrar</button>
+    </form>
+</div>
